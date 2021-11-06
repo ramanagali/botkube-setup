@@ -1,0 +1,306 @@
+config:
+  ## Resources to watch
+  resources:
+    - name: v1/nodes # node
+      namespaces:
+        include:
+          - all
+        ignore:
+          - null
+      events:
+        - all
+    - name: v1/namespaces # namespace
+      namespaces:
+        include:
+          - all
+        ignore:
+          - null
+      events:
+        - all
+    - name: v1/pods # pod
+      namespaces:
+        include:
+          - all
+        ignore:
+          - kube-system
+      events:
+        - create
+        - delete
+        - error
+    - name: v1/services # svc
+      namespaces:
+        include:
+          - all
+        ignore:
+          - kube-system
+      events:
+        - create
+        - delete
+        - error
+    - name: apps/v1/deployments # deployments
+      namespaces:
+        include:
+          - all
+        ignore:
+          - null
+      events:
+        - create
+        - update
+        - delete
+        - error
+      updateSetting:
+        includeDiff: true
+        fields:
+          - spec.template.spec.containers[*].image
+          - status.availableReplicas
+    - name: apps/v1 # rs
+      namespaces:
+        include:
+          - all
+        ignore:
+          - kube-system
+      events:
+        - create
+        - delete
+        - error
+    - name: autoscaling/v1 # hpa
+      namespaces:
+        include:
+          - all
+        ignore:
+          - kube-system
+      events:
+        - create
+        - delete
+        - error
+    - name: apps/v1/statefulsets # statefulsets
+      namespaces:
+        include:
+          - all
+        ignore:
+          - null
+      events:
+        - create
+        - update
+        - delete
+        - error
+      updateSetting:
+        includeDiff: true
+        fields:
+          - spec.template.spec.containers[*].image
+          - status.readyReplicas
+    - name: networking.k8s.io/v1/ingresses # ingress
+      namespaces:
+        include:
+          - all
+        ignore:
+          - null
+      events:
+        - create
+        - update
+        - delete
+        - error
+    - name: v1/persistentvolumes # pv
+      namespaces:
+        include:
+          - all
+        ignore:
+          - kube-system
+      events:
+        - create
+        - update
+        - delete
+        - error
+    - name: v1/persistentvolumeclaims # pvc
+      namespaces:
+        include:
+          - all
+        ignore:
+          - kube-system
+      events:
+        - create
+        - update
+        - delete
+        - error
+    - name: v1/configmaps # cm
+      namespaces:
+        include:
+          - all
+        ignore:
+          - kube-system
+      events:
+        - create
+        - update
+        - delete
+        - error
+    - name: v1/secrets # secrets
+      namespaces:
+        include:
+          - all
+        ignore:
+          - kube-system
+      events:
+        - create
+        - update
+        - delete
+        - error
+    - name: batch/v1beta1/cronjobs # cronjobs
+      namespaces:
+        include:
+          - all
+        ignore:
+          - null
+      events:
+        - all
+    - name: batch/v1/jobs # jobs
+      namespaces:
+        include:
+          - all
+        ignore:
+          - kube-system
+      events:
+        - create
+        - update
+        - delete
+        - error
+      updateSetting:
+        includeDiff: true
+        fields:
+          - spec.template.spec.containers[*].image
+          - status.conditions[*].type
+    - name: apps/v1/daemonsets # daemonsets
+      namespaces:
+        include:
+          - all
+        ignore:
+          - null
+      events:
+        - create
+        - update
+        - delete
+        - error
+      updateSetting:
+        includeDiff: true
+        fields:
+          - spec.template.spec.containers[*].image
+          - status.numberReady
+    - name: rbac.authorization.k8s.io/v1/roles # roles
+      namespaces:
+        include:
+          - all
+        ignore:
+          - null
+      events:
+        - create
+        - delete
+        - error
+    - name: rbac.authorization.k8s.io/v1/rolebindings # rolebindings
+      namespaces:
+        include:
+          - all
+        ignore:
+          - null
+      events:
+        - create
+        - delete
+        - error
+    - name: rbac.authorization.k8s.io/v1/clusterroles # clusterroles
+      namespaces:
+        include:
+          - all
+        ignore:
+          - null
+      events:
+        - create
+        - delete
+        - error
+    - name: v1 # serviceaccounts
+      namespaces:
+        include:
+          - all
+        ignore:
+          - null
+      events:
+        - create
+        - delete
+        - error
+    - name: monitoring.coreos.com/v1 # servicemonitors
+      namespaces:
+        include:
+          - all
+        ignore:
+          - null
+      events:
+        - create
+        - delete
+        - error
+    - name: apiextensions.k8s.io/v1 # crds
+      namespaces:
+        include:
+          - all
+        ignore:
+          - null
+      events:
+        - create
+        - delete
+        - error
+  recommendations: true
+  settings:
+    clustername: mac-minikube
+    kubectl:
+      enabled: true
+      commands:
+        resources:
+          - nodes
+          - namespaces
+          - pods
+          - services
+          - deployments
+          - replicasets
+          - daemonsets
+          - statefulsets
+          - ingresses
+          - persistentvolumes
+          - persistentvolumeclaims
+          - configmaps
+          - secrets
+          - daemonsets
+          - cronjobs
+          - jobs
+          - horizontalpodautoscalers
+          - endpoints
+          - events
+          - limitranges
+          - resourcequotas
+          - serviceaccounts
+          - networkpolicies
+          - poddisruptionbudgets
+          - podsecuritypolicies
+          - priorityclasses
+          - storageclasses
+          - servicemonitors
+          - customresourcedefinitions
+        verbs:
+          - nodes
+          - deployments
+          - services
+          - pods
+          - replicasets
+          - daemonsets
+          - configmaps
+          - secrets
+          - api-resources
+          - api-versions
+          - cluster-info
+          - describe
+          - diff
+          - explain
+          - get
+          - logs
+          - top
+          - auth
+          - debug
+      defaultNamespace: default
+      restrictAccess: false
+    configwatcher: true
+    upgradeNotifier: true
